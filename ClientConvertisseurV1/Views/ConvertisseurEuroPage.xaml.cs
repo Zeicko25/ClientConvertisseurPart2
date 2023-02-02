@@ -100,9 +100,14 @@ namespace ClientConvertisseurV1.Views
 
         private async void GetDataOnLoadAsync()
         {
-            WSService service = new WSService("https://localhost:7155/api/");
+            WSService service = new WSService("https://localhost:7058/api/");
             List<Devise> result = await service.GetDevisesAsync("devises");
-            LesDevises = new ObservableCollection<Devise>(result);
+            if (result == null)
+            {
+                Errormethode("Error","API non dispo");
+            }
+            else
+                LesDevises = new ObservableCollection<Devise>(result);
         }
         protected void OnPropertyChanged(string name)
         {
@@ -114,9 +119,25 @@ namespace ClientConvertisseurV1.Views
         }
         private void ConvertMoney(object sender, RoutedEventArgs e)
         {
-            Resultat1 = SelectedDevise.Taux * Montant;
+            if (selectedDevise == null)
+            {
+                Errormethode("error", "vous devez selectionner une devise");
+            }
+            else
+                Resultat1 = SelectedDevise.Taux * Montant;
         }
 
+        private async void Errormethode(String title, String description)
+        {
+            ContentDialog noWifiDialog = new ContentDialog
+            {
+                Title = title,
+                Content = description,
+                CloseButtonText = "Ok"
+            };
+            noWifiDialog.XamlRoot = this.Content.XamlRoot;
+            ContentDialogResult result = await noWifiDialog.ShowAsync();
+        }
 
     }
 }
