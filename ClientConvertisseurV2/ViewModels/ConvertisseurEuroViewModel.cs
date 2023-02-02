@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 using ClientConvertisseurV2.Models;
 using CommunityToolkit.Mvvm.ComponentModel;
 using ClientConvertisseurV2.Services;
+using CommunityToolkit.Mvvm.Input;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml;
 
 namespace ClientConvertisseurV2.ViewModels
 {
@@ -86,7 +89,38 @@ namespace ClientConvertisseurV2.ViewModels
         public ConvertisseurEuroViewModel()
         {
             GetDataOnLoadAsync();
+            //Boutons
+            BtnSetConversion = new RelayCommand(ActionSetConversion);
         }
+
+        public IRelayCommand BtnSetConversion { get; }
         
+        private void ActionSetConversion()
+        {
+            Resultat1 = SelectedDevise.Taux * Montant;
+        }
+        private void ConvertMoney(object sender, RoutedEventArgs e)
+        {
+            if (selectedDevise == null)
+            {
+                Errormethode("error", "vous devez selectionner une devise");
+            }
+            else
+                Resultat1 = SelectedDevise.Taux * Montant;
+        }
+
+        private async void Errormethode(String title, String description)
+        {
+            ContentDialog noWifiDialog = new ContentDialog
+            {
+                Title = title,
+                Content = description,
+                CloseButtonText = "Ok"
+            };
+            
+            noWifiDialog.XamlRoot = App.MainRoot.XamlRoot;
+            ContentDialogResult result = await noWifiDialog.ShowAsync();
+        }
+
     }
 }

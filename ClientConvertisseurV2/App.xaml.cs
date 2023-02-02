@@ -55,6 +55,7 @@ namespace ClientConvertisseurV2
             //Navigate to the first page
             rootFrame.Navigate(typeof(ConvertisseurEuroPage));
         }
+        public static FrameworkElement MainRoot { get; private set; }
 
         private Window m_window;
     }

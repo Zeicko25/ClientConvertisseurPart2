@@ -55,6 +55,7 @@
             Width="180"
             Margin="0,20,0,10"
             Content="Convertir"
+            Command="{Binding BtnSetConversion}" 
             RelativePanel.AlignHorizontalCenterWithPanel="True"
             RelativePanel.Below="Liste" />
         <TextBlock
