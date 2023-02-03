@@ -78,7 +78,7 @@ namespace ClientConvertisseurV2.ViewModels
             }
         }
 
-        private async void GetDataOnLoadAsync()
+        public async void GetDataOnLoadAsync()
         {
             WSServices service = new WSServices("https://localhost:7058/api/");
             List<Devise> result = await service.GetDevisesAsync("devises");
@@ -95,11 +95,7 @@ namespace ClientConvertisseurV2.ViewModels
 
         public IRelayCommand BtnSetConversion { get; }
         
-        private void ActionSetConversion()
-        {
-            Resultat1 = SelectedDevise.Taux * Montant;
-        }
-        private void ConvertMoney(object sender, RoutedEventArgs e)
+        public void ActionSetConversion()
         {
             if (selectedDevise == null)
             {
@@ -108,7 +104,6 @@ namespace ClientConvertisseurV2.ViewModels
             else
                 Resultat1 = SelectedDevise.Taux * Montant;
         }
-
         private async void Errormethode(String title, String description)
         {
             ContentDialog noWifiDialog = new ContentDialog
